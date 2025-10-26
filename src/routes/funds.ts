@@ -3,6 +3,7 @@ import { fundCreateSchema, fundUpdateSchema } from '../lib/validators';
 import { transformFundToApi } from '../lib/transformers';
 import { fundService } from '../services/fundService';
 import { asyncHandler } from '../lib/asyncHandler';
+import { idempotencyMiddleware } from '../lib/idempotency';
 
 const router = Router();
 
@@ -34,6 +35,7 @@ router.get(
 
 router.post(
   '/',
+  idempotencyMiddleware(),
   asyncHandler(async (req, res) => {
     const validated = fundCreateSchema.parse(req.body);
     const fund = await fundService.create(validated);

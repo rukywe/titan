@@ -73,3 +73,16 @@ model Investment {
   @@index([createdAt])
   @@map("investments")
 }
+
+model IdempotencyKey {
+  id         String   @id @default(uuid())
+  key        String   @unique
+  statusCode Int      @map("status_code")
+  body       String   @db.Text
+  createdAt  DateTime @map("created_at") @default(now())
+  expiresAt  DateTime @map("expires_at")
+
+  @@index([key])
+  @@index([expiresAt])
+  @@map("idempotency_keys")
+}

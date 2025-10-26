@@ -3,6 +3,7 @@ import { investmentCreateSchema } from '../lib/validators';
 import { transformInvestmentToApi } from '../lib/transformers';
 import { investmentService } from '../services/investmentService';
 import { asyncHandler } from '../lib/asyncHandler';
+import { idempotencyMiddleware } from '../lib/idempotency';
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.get(
 
 router.post(
   '/:fund_id/investments',
+  idempotencyMiddleware(),
   asyncHandler(async (req, res) => {
     const fundId = req.params['fund_id'];
     if (!fundId) {
