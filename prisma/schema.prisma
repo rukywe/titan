@@ -7,8 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Minimal model for testing database connection
-model Test {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
+enum FundStatus {
+  Fundraising
+  Investing
+  Closed
+}
+
+enum InvestorType {
+  Individual
+  Institution
+  FamilyOffice @map("Family Office")
+}
+
+model Fund {
+  id              String     @id @default(uuid())
+  name            String
+  vintageYear     Int        @map("vintage_year")
+  targetSizeUsd   Decimal    @map("target_size_usd") @db.Decimal(15, 2)
+  status          FundStatus @default(Fundraising)
+  version         Int        @default(0)
+  createdAt       DateTime   @map("created_at") @default(now())
+  updatedAt       DateTime   @map("updated_at") @updatedAt
+
+  investments     Investment[]
+
+  @@index([status])
+  @@index([vintageYear])
+  @@index([createdAt])
+  @@map("funds")
+}
+
+model Investor {
+  id            String       @id @default(uuid())
+  name          String
+  investorType  InvestorType @map("investor_type")
+  email         String       @unique
+  version       Int          @default(0)
+  createdAt     DateTime     @map("created_at") @default(now())
+  updatedAt     DateTime     @map("updated_at") @updatedAt
+
+  investments   Investment[]
+
+  @@index([email])
+  @@index([investorType])
+  @@index([createdAt])
+  @@map("investors")
+}
+
+model Investment {
+  id              String   @id @default(uuid())
+  investorId      String   @map("investor_id")
+  fundId          String   @map("fund_id")
+  amountUsd       Decimal  @map("amount_usd") @db.Decimal(15, 2)
+  investmentDate  DateTime @map("investment_date") @db.Date
+  version         Int      @default(0)
+  createdAt       DateTime @map("created_at") @default(now())
+  updatedAt       DateTime @map("updated_at") @updatedAt
+
+  investor        Investor @relation(fields: [investorId], references: [id], onDelete: Cascade)
+  fund            Fund     @relation(fields: [fundId], references: [id], onDelete: Cascade)
+
+  @@index([investorId])
+  @@index([fundId])
+  @@index([investmentDate])
+  @@index([createdAt])
+  @@map("investments")
 }
