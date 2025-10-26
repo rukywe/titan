@@ -1,7 +1,10 @@
 import express from 'express';
 import { securityMiddleware } from './middleware/security';
 import { prisma } from './lib/prisma';
-import { logger } from './lib/logger';
+import { errorHandler } from './lib/errorHandler';
+import { fundsRouter } from './routes/funds';
+import { investorsRouter } from './routes/investors';
+import { investmentsRouter } from './routes/investments';
 
 const app = express();
 
@@ -33,17 +36,9 @@ app.get('/health/db', async (_, res) => {
   }
 });
 
-app.use(
-  (
-    err: Error,
-    _: express.Request,
-    res: express.Response,
-    __: express.NextFunction
-  ) => {
-    logger.error({ err }, 'Unhandled error');
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-);
+app.use('/funds', fundsRouter);
+app.use('/investors', investorsRouter);
+app.use('/funds', investmentsRouter);
 
 app.use('*', (req, res) =>
   res.status(404).json({
@@ -51,5 +46,7 @@ app.use('*', (req, res) =>
     message: `Route ${req.originalUrl} not found`
   })
 );
+
+app.use(errorHandler);
 
 export default app;
