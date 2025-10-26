@@ -30,7 +30,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: npm run dev:container
+    command: sh -c "npm run db:push && npm run db:seed && npm run dev:container"
     stop_grace_period: 2s
     init: true
 
