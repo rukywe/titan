@@ -7,7 +7,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "setup": "docker-compose up -d postgres && npm run db:push && npm run db:generate",
+    "setup": "docker-compose up -d postgres && npm run db:push && npm run db:generate && npm run db:seed",
     "dev": "npm run clean && npm run setup && PORT=3000 NODE_ENV=development tsx watch src/server.ts",
     "dev:container": "npm run db:push && tsx watch src/server.ts",
     "start": "npm run clean && npm run setup && npm run build && node dist/server.js",
@@ -24,6 +24,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
+    "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset"
   },
