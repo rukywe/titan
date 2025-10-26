@@ -7,14 +7,14 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "setup": "docker-compose up -d postgres && npm run db:push && npm run db:generate && npm run db:seed",
+    "setup": "(test -f .env || cp env.example .env) && docker-compose up -d postgres && npm run db:push && npm run db:generate && npm run db:seed",
     "dev": "npm run clean && npm run setup && PORT=3000 NODE_ENV=development tsx watch src/server.ts",
     "dev:container": "npm run db:push && tsx watch src/server.ts",
     "start": "npm run clean && npm run setup && npm run build && node dist/server.js",
     "dev:docker": "npm run clean && docker-compose up --build",
     "start:docker": "npm run clean && docker-compose up --build",
     "build": "tsc",
-    "test": "docker-compose up -d postgres && sleep 2 && jest",
+    "test": "docker-compose up -d postgres && sleep 5 && npx prisma db push --skip-generate && jest",
     "test:watch": "jest --watch",
     "clean": "lsof -ti:3000 | xargs kill -9 || true && docker-compose down || true",
     "docker:up": "docker-compose up -d",
@@ -34,9 +34,9 @@
     "@prisma/client": "^5.7.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "helmet": "^7.1.0",
+    "helmet": "^8.1.0",
     "pino": "^10.1.0",
-    "zod": "^3.22.4"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -44,11 +44,11 @@
     "@types/jest": "^29.5.8",
     "@types/node": "^20.19.23",
     "@types/pino": "^7.0.4",
-    "@types/supertest": "^2.0.16",
-    "jest": "^29.7.0",
+    "@types/supertest": "^6.0.2",
+    "jest": "^30.2.0",
     "pino-pretty": "^13.1.2",
     "prisma": "^5.7.1",
-    "supertest": "^6.3.3",
+    "supertest": "^7.1.4",
     "ts-jest": "^29.1.1",
     "tsx": "^4.6.2",
     "typescript": "^5.3.3"
