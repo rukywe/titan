@@ -14,7 +14,7 @@
     "dev:docker": "npm run clean && docker-compose up --build",
     "start:docker": "npm run clean && docker-compose up --build",
     "build": "tsc",
-    "test": "jest",
+    "test": "docker-compose up -d postgres && sleep 2 && jest",
     "test:watch": "jest --watch",
     "clean": "lsof -ti:3000 | xargs kill -9 || true && docker-compose down || true",
     "docker:up": "docker-compose up -d",
