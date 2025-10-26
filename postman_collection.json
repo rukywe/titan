@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Fund Management API",
-    "description": "RESTful API for managing private market funds, investors, and investments",
+    "description": "RESTful API for managing private market funds, investors, and investments\n\nQUICK START:\n1. Start server with 'npm run dev'\n2. Run 'List All Funds' to get a fund_id\n3. Run 'List All Investors' to get an investor_id\n4. Manually set those IDs in collection variables (click collection name → Variables)\n5. Now you can test investment endpoints!\n\nNote: Variables auto-update when you Create new resources.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -128,7 +128,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Titanbay Growth Fund III\",\n  \"vintage_year\": 2025,\n  \"target_size_usd\": 500000000.00,\n  \"status\": \"Fundraising\"\n}",
+              "raw": "{\n  \"name\": \"Titanbay Digital Fund I\",\n  \"vintage_year\": 2026,\n  \"target_size_usd\": 750000000.00,\n  \"status\": \"Fundraising\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -255,7 +255,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"CalPERS\",\n  \"investor_type\": \"Institution\",\n  \"email\": \"privateequity@calpers.ca.gov\"\n}",
+              "raw": "{\n  \"name\": \"Blackstone Group\",\n  \"investor_type\": \"Family Office\",\n  \"email\": \"investments@blackstone.com\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
