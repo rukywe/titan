@@ -11,7 +11,7 @@
     "dev": "npm run clean && npm run setup && PORT=3000 NODE_ENV=development tsx watch src/server.ts",
     "dev:container": "npm run db:push && tsx watch src/server.ts",
     "start": "npm run clean && npm run setup && npm run build && node dist/server.js",
-    "dev:docker": "npm run clean && docker-compose up --build",
+    "dev:docker": "npm run clean && (test -f .env || cp env.example .env) && docker-compose up --build",
     "start:docker": "npm run clean && docker-compose up --build",
     "build": "tsc",
     "test": "(test -f .env || cp env.example .env) && docker-compose up -d postgres && sleep 5 && npx prisma db push --skip-generate && jest",

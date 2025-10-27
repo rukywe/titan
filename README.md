@@ -17,6 +17,7 @@ npm run dev:docker
 
 This single command will:
 
+- Copy `.env` file from `env.example` if it doesn't exist
 - Start PostgreSQL database
 - Run database migrations
 - Seed sample data
