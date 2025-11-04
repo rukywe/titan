@@ -5,6 +5,7 @@ import { errorHandler } from './lib/errorHandler';
 import { fundsRouter } from './routes/funds';
 import { investorsRouter } from './routes/investors';
 import { investmentsRouter } from './routes/investments';
+import { analyticsRouter } from './routes/analytics';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.get('/health/db', async (_, res) => {
 app.use('/funds', fundsRouter);
 app.use('/investors', investorsRouter);
 app.use('/funds', investmentsRouter);
+app.use('/funds', analyticsRouter);
 
 app.use('*', (req, res) =>
   res.status(404).json({
